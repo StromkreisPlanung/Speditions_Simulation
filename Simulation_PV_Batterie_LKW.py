@@ -1,8 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
-
-# Spedition Strommanagement Simulation – Vollständiges Streamlit-Programm
+# Spedition Strommanagement Simulation – Vollständiges, fehlerfreies Streamlit-Programm
 
 import random
 import pandas as pd
@@ -172,7 +168,6 @@ if st.button("Simulation starten"):
     st.line_chart(pd.Series(grid_energy_per_day, name="Netzstromverbrauch"))
     st.line_chart(pd.Series(pv_surplus_per_day, name="PV-Überschuss"))
 
-    # LKW-Typen pro Stunde (Stackplot)
     st.subheader("Geladene LKW-Typen pro Stunde")
     fig, ax = plt.subplots(figsize=(14, 6))
     ax.stackplot(range(sim_hours),
@@ -188,7 +183,6 @@ if st.button("Simulation starten"):
     ax.grid(True)
     st.pyplot(fig)
 
-    # Tortendiagramme
     st.subheader("Gesamtverteilung der geladenen LKW-Typen")
     total_loaded = {
         "Klein": sum(truck_type_counts["klein"]),
@@ -216,7 +210,6 @@ if st.button("Simulation starten"):
     plt.title("Geladene Energiemenge nach LKW-Typ (kWh)")
     st.pyplot(fig3)
 
-    # PDF-Export mit Logo und QR-Code
     if st.button("PDF-Abschlussbericht erstellen"):
         with tempfile.TemporaryDirectory() as tmpdirname:
             fig2_path = os.path.join(tmpdirname, "lkw_typen_pie.png")
@@ -226,11 +219,18 @@ if st.button("Simulation starten"):
             qr_img = qrcode.make("https://www.stromkreis.eu")
             qr_path = os.path.join(tmpdirname, "qr_code.png")
             qr_img.save(qr_path)
-            logo_path = "/mnt/data/logo_sk2_cymk_332x167.jpg"
+
+            logo_path = "logo_sk2_cymk_332x167.jpg"
 
             pdf = FPDF()
             pdf.add_page()
-            pdf.image(logo_path, x=60, y=20, w=90)
+
+            if os.path.exists(logo_path):
+                pdf.image(logo_path, x=60, y=20, w=90)
+            else:
+                pdf.set_font("Arial", 'B', 12)
+                pdf.cell(0, 10, "Logo nicht gefunden", ln=True, align='C')
+
             pdf.set_font("Arial", 'B', 24)
             pdf.ln(70)
             pdf.cell(0, 10, "Spedition Strommanagement Simulation", ln=True, align='C')
@@ -260,4 +260,3 @@ if st.button("Simulation starten"):
 
             with open(pdf_path, "rb") as f:
                 st.download_button("Abschlussbericht herunterladen", data=f, file_name="abschlussbericht.pdf", mime="application/pdf")
- """
