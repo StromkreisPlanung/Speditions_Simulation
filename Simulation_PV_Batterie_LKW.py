@@ -260,4 +260,4 @@ if st.button("Simulation starten"):
 
             with open(pdf_path, "rb") as f:
                 st.download_button("Abschlussbericht herunterladen", data=f, file_name="abschlussbericht.pdf", mime="application/pdf")
- 
+ """
