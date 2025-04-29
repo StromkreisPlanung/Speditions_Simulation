@@ -4,7 +4,7 @@ import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
-from fpdf import FPDF
+from fpdf2 import FPDF
 import tempfile
 import os
 import qrcode
